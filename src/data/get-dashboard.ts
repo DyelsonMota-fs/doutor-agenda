@@ -1,6 +1,5 @@
 import dayjs from "dayjs";
 import { and, count, desc, eq, gte, lte, sql, sum } from "drizzle-orm";
-import os from "os";
 
 import { db } from "@/db";
 import { appointmentsTable, doctorsTable, patientsTable } from "@/db/schema";
@@ -179,14 +178,11 @@ export const getDashboard = async ({ from, to, session }: Params) => {
     };
   })();
 
-  const totalWorkThreads = os.cpus().length;
-
   return {
     totalRevenue,
     totalAppointments,
     totalPatients,
     totalDoctors,
-    totalWorkThreads,
     topDoctors,
     topSpecialties,
     todayAppointments,

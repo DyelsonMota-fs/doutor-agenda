@@ -52,7 +52,6 @@ const DashboardPage = async ({ searchParams }: DashboardPageProps) => {
     totalAppointments,
     totalPatients,
     totalDoctors,
-    totalWorkThreads,
     topDoctors,
     topSpecialties,
     todayAppointments,
@@ -88,7 +87,6 @@ const DashboardPage = async ({ searchParams }: DashboardPageProps) => {
           totalAppointments={totalAppointments.total}
           totalPatients={totalPatients.total}
           totalDoctors={totalDoctors.total}
-          totalWorkThreads={totalWorkThreads}
         />
         <div className="grid grid-cols-[2.25fr_1fr] gap-4">
           <AppointmentsChart dailyAppointmentsData={dailyAppointmentsData} />

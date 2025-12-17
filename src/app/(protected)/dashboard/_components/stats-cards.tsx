@@ -3,7 +3,6 @@ import {
   DollarSignIcon,
   UserIcon,
   UsersIcon,
-  Cpu,
 } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -14,7 +13,6 @@ interface StatsCardsProps {
   totalAppointments: number;
   totalPatients: number;
   totalDoctors: number;
-  totalWorkThreads: number;
 }
 
 const StatsCards = ({
@@ -22,7 +20,6 @@ const StatsCards = ({
   totalAppointments,
   totalPatients,
   totalDoctors,
-  totalWorkThreads,
 }: StatsCardsProps) => {
   const stats = [
     {
@@ -45,15 +42,10 @@ const StatsCards = ({
       value: totalDoctors.toString(),
       icon: UsersIcon,
     },
-    {
-      title: "Work Threads",
-      value: totalWorkThreads.toString(),
-      icon: Cpu,
-    },
   ];
 
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
+    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
       {stats.map((stat) => {
         const Icon = stat.icon;
         return (
