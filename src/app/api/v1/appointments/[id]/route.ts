@@ -36,10 +36,10 @@ export async function GET(
     }
 
     return successResponse(appointment);
-  } catch (error: any) {
+  } catch (error: unknown) {
     if (
-      error.message === "Unauthorized" ||
-      error.message === "Clinic not found"
+      error instanceof Error &&
+      (error.message === "Unauthorized" || error.message === "Clinic not found")
     ) {
       return unauthorizedResponse(error.message);
     }
@@ -73,10 +73,10 @@ export async function DELETE(
     await db.delete(appointmentsTable).where(eq(appointmentsTable.id, id));
 
     return successResponse({ message: "Appointment deleted successfully" });
-  } catch (error: any) {
+  } catch (error: unknown) {
     if (
-      error.message === "Unauthorized" ||
-      error.message === "Clinic not found"
+      error instanceof Error &&
+      (error.message === "Unauthorized" || error.message === "Clinic not found")
     ) {
       return unauthorizedResponse(error.message);
     }
@@ -84,4 +84,3 @@ export async function DELETE(
     return errorResponse("Internal server error", 500);
   }
 }
-

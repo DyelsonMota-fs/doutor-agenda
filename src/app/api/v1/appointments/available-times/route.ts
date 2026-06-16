@@ -41,10 +41,10 @@ export async function GET(request: NextRequest) {
     }
 
     return successResponse(availableTimes.data);
-  } catch (error: any) {
+  } catch (error: unknown) {
     if (
-      error.message === "Unauthorized" ||
-      error.message === "Clinic not found"
+      error instanceof Error &&
+      (error.message === "Unauthorized" || error.message === "Clinic not found")
     ) {
       return unauthorizedResponse(error.message);
     }
@@ -52,4 +52,3 @@ export async function GET(request: NextRequest) {
     return errorResponse("Internal server error", 500);
   }
 }
-
