@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
     let body;
     try {
       body = await request.json();
-    } catch (error) {
+    } catch {
       return errorResponse("Invalid JSON body", 400);
     }
 
@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
           password,
         },
       });
-    } catch (err) {
+    } catch {
       return errorResponse("Invalid credentials", 401);
     }
 
@@ -88,4 +88,3 @@ export async function POST(request: NextRequest) {
     return errorResponse("Internal server error", 500);
   }
 }
-

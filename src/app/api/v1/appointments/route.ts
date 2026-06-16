@@ -5,11 +5,7 @@ import { z } from "zod";
 
 import { getAvailableTimes } from "@/actions/get-available-times";
 import { db } from "@/db";
-import {
-  appointmentsTable,
-  doctorsTable,
-  patientsTable,
-} from "@/db/schema";
+import { appointmentsTable, doctorsTable, patientsTable } from "@/db/schema";
 import { requireClinic } from "@/lib/api-auth";
 import {
   errorResponse,
@@ -29,7 +25,7 @@ const createAppointmentSchema = z.object({
 });
 
 // GET /api/v1/appointments - Listar agendamentos
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     const user = await requireClinic();
 
@@ -43,10 +39,10 @@ export async function GET(request: NextRequest) {
     });
 
     return successResponse(appointments);
-  } catch (error: any) {
+  } catch (error: unknown) {
     if (
-      error.message === "Unauthorized" ||
-      error.message === "Clinic not found"
+      error instanceof Error &&
+      (error.message === "Unauthorized" || error.message === "Clinic not found")
     ) {
       return unauthorizedResponse(error.message);
     }
@@ -132,10 +128,10 @@ export async function POST(request: NextRequest) {
       .returning();
 
     return successResponse(appointment, 201);
-  } catch (error: any) {
+  } catch (error: unknown) {
     if (
-      error.message === "Unauthorized" ||
-      error.message === "Clinic not found"
+      error instanceof Error &&
+      (error.message === "Unauthorized" || error.message === "Clinic not found")
     ) {
       return unauthorizedResponse(error.message);
     }
@@ -143,4 +139,3 @@ export async function POST(request: NextRequest) {
     return errorResponse("Internal server error", 500);
   }
 }
-

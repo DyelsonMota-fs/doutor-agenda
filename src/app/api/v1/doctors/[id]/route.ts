@@ -20,8 +20,14 @@ const updateDoctorSchema = z.object({
   appointmentPriceInCents: z.number().int().positive().optional(),
   availableFromWeekDay: z.number().int().min(0).max(6).optional(),
   availableToWeekDay: z.number().int().min(0).max(6).optional(),
-  availableFromTime: z.string().regex(/^\d{2}:\d{2}$/).optional(),
-  availableToTime: z.string().regex(/^\d{2}:\d{2}$/).optional(),
+  availableFromTime: z
+    .string()
+    .regex(/^\d{2}:\d{2}$/)
+    .optional(),
+  availableToTime: z
+    .string()
+    .regex(/^\d{2}:\d{2}$/)
+    .optional(),
 });
 
 // GET /api/v1/doctors/:id - Detalhes do médico
@@ -45,8 +51,11 @@ export async function GET(
     }
 
     return successResponse(doctor);
-  } catch (error: any) {
-    if (error.message === "Unauthorized" || error.message === "Clinic not found") {
+  } catch (error: unknown) {
+    if (
+      error instanceof Error &&
+      (error.message === "Unauthorized" || error.message === "Clinic not found")
+    ) {
       return unauthorizedResponse(error.message);
     }
     console.error("Error fetching doctor:", error);
@@ -92,8 +101,11 @@ export async function PUT(
       .returning();
 
     return successResponse(updatedDoctor);
-  } catch (error: any) {
-    if (error.message === "Unauthorized" || error.message === "Clinic not found") {
+  } catch (error: unknown) {
+    if (
+      error instanceof Error &&
+      (error.message === "Unauthorized" || error.message === "Clinic not found")
+    ) {
       return unauthorizedResponse(error.message);
     }
     console.error("Error updating doctor:", error);
@@ -126,12 +138,14 @@ export async function DELETE(
     await db.delete(doctorsTable).where(eq(doctorsTable.id, id));
 
     return successResponse({ message: "Doctor deleted successfully" });
-  } catch (error: any) {
-    if (error.message === "Unauthorized" || error.message === "Clinic not found") {
+  } catch (error: unknown) {
+    if (
+      error instanceof Error &&
+      (error.message === "Unauthorized" || error.message === "Clinic not found")
+    ) {
       return unauthorizedResponse(error.message);
     }
     console.error("Error deleting doctor:", error);
     return errorResponse("Internal server error", 500);
   }
 }
-
