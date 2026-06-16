@@ -45,8 +45,12 @@ export async function GET(
     }
 
     return successResponse(patient);
-  } catch (error: any) {
-    if (error.message === "Unauthorized" || error.message === "Clinic not found") {
+  } catch (error: unknown) {
+    if (
+      error instanceof Error &&
+      (error.message === "Unauthorized" ||
+        error.message === "Clinic not found")
+    ) {
       return unauthorizedResponse(error.message);
     }
     console.error("Error fetching patient:", error);
@@ -92,8 +96,12 @@ export async function PUT(
       .returning();
 
     return successResponse(updatedPatient);
-  } catch (error: any) {
-    if (error.message === "Unauthorized" || error.message === "Clinic not found") {
+  } catch (error: unknown) {
+    if (
+      error instanceof Error &&
+      (error.message === "Unauthorized" ||
+        error.message === "Clinic not found")
+    ) {
       return unauthorizedResponse(error.message);
     }
     console.error("Error updating patient:", error);
@@ -126,8 +134,12 @@ export async function DELETE(
     await db.delete(patientsTable).where(eq(patientsTable.id, id));
 
     return successResponse({ message: "Patient deleted successfully" });
-  } catch (error: any) {
-    if (error.message === "Unauthorized" || error.message === "Clinic not found") {
+  } catch (error: unknown) {
+    if (
+      error instanceof Error &&
+      (error.message === "Unauthorized" ||
+        error.message === "Clinic not found")
+    ) {
       return unauthorizedResponse(error.message);
     }
     console.error("Error deleting patient:", error);

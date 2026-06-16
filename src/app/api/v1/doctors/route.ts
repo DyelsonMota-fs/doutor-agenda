@@ -1,4 +1,4 @@
-import { and, eq } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { NextRequest } from "next/server";
 import { z } from "zod";
 
@@ -24,7 +24,7 @@ const createDoctorSchema = z.object({
 });
 
 // GET /api/v1/doctors - Listar médicos
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     const user = await requireClinic();
 
@@ -34,8 +34,12 @@ export async function GET(request: NextRequest) {
     });
 
     return successResponse(doctors);
-  } catch (error: any) {
-    if (error.message === "Unauthorized" || error.message === "Clinic not found") {
+  } catch (error: unknown) {
+    if (
+      error instanceof Error &&
+      (error.message === "Unauthorized" ||
+        error.message === "Clinic not found")
+    ) {
       return unauthorizedResponse(error.message);
     }
     console.error("Error fetching doctors:", error);
@@ -69,8 +73,12 @@ export async function POST(request: NextRequest) {
       .returning();
 
     return successResponse(doctor, 201);
-  } catch (error: any) {
-    if (error.message === "Unauthorized" || error.message === "Clinic not found") {
+  } catch (error: unknown) {
+    if (
+      error instanceof Error &&
+      (error.message === "Unauthorized" ||
+        error.message === "Clinic not found")
+    ) {
       return unauthorizedResponse(error.message);
     }
     console.error("Error creating doctor:", error);

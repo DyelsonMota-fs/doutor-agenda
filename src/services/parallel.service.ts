@@ -1,5 +1,5 @@
-import { Worker } from "worker_threads";
 import os from "os";
+import { Worker } from "worker_threads";
 
 function runWorker(iterations: number): Promise<number> {
   return new Promise((resolve, reject) => {
@@ -20,8 +20,8 @@ function runWorker(iterations: number): Promise<number> {
       `,
       {
         eval: true,
-        workerData: { iterations }
-      }
+        workerData: { iterations },
+      },
     );
 
     worker.on("message", resolve);
@@ -33,9 +33,7 @@ export async function runParallelCalculation() {
   const cpuCount = os.cpus().length;
   const iterations = 900_000_000;
 
-  const workers = Array.from({ length: cpuCount }, () =>
-    runWorker(iterations)
-  );
+  const workers = Array.from({ length: cpuCount }, () => runWorker(iterations));
 
   const start = Date.now();
   await Promise.all(workers);
@@ -43,6 +41,6 @@ export async function runParallelCalculation() {
 
   return {
     cpuCount,
-    timeMs: end - start
+    timeMs: end - start,
   };
 }

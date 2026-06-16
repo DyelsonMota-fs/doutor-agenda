@@ -22,7 +22,7 @@ const createPatientSchema = z.object({
 });
 
 // GET /api/v1/patients - Listar pacientes
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     const user = await requireClinic();
 
@@ -32,8 +32,12 @@ export async function GET(request: NextRequest) {
     });
 
     return successResponse(patients);
-  } catch (error: any) {
-    if (error.message === "Unauthorized" || error.message === "Clinic not found") {
+  } catch (error: unknown) {
+    if (
+      error instanceof Error &&
+      (error.message === "Unauthorized" ||
+        error.message === "Clinic not found")
+    ) {
       return unauthorizedResponse(error.message);
     }
     console.error("Error fetching patients:", error);
@@ -67,8 +71,12 @@ export async function POST(request: NextRequest) {
       .returning();
 
     return successResponse(patient, 201);
-  } catch (error: any) {
-    if (error.message === "Unauthorized" || error.message === "Clinic not found") {
+  } catch (error: unknown) {
+    if (
+      error instanceof Error &&
+      (error.message === "Unauthorized" ||
+        error.message === "Clinic not found")
+    ) {
       return unauthorizedResponse(error.message);
     }
     console.error("Error creating patient:", error);
