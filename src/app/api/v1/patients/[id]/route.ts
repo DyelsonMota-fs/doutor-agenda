@@ -48,8 +48,7 @@ export async function GET(
   } catch (error: unknown) {
     if (
       error instanceof Error &&
-      (error.message === "Unauthorized" ||
-        error.message === "Clinic not found")
+      (error.message === "Unauthorized" || error.message === "Clinic not found")
     ) {
       return unauthorizedResponse(error.message);
     }
@@ -99,8 +98,7 @@ export async function PUT(
   } catch (error: unknown) {
     if (
       error instanceof Error &&
-      (error.message === "Unauthorized" ||
-        error.message === "Clinic not found")
+      (error.message === "Unauthorized" || error.message === "Clinic not found")
     ) {
       return unauthorizedResponse(error.message);
     }
@@ -137,8 +135,7 @@ export async function DELETE(
   } catch (error: unknown) {
     if (
       error instanceof Error &&
-      (error.message === "Unauthorized" ||
-        error.message === "Clinic not found")
+      (error.message === "Unauthorized" || error.message === "Clinic not found")
     ) {
       return unauthorizedResponse(error.message);
     }
@@ -146,4 +143,3 @@ export async function DELETE(
     return errorResponse("Internal server error", 500);
   }
 }
-
