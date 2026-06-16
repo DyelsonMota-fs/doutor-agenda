@@ -21,6 +21,7 @@ export const auth = betterAuth({
   plugins: [
     customSession(async ({ user, session }) => {
       // TODO: colocar cache
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const [userData, clinics] = await Promise.all([
         db.query.usersTable.findFirst({
           where: eq(usersTable.id, user.id),

@@ -53,4 +53,3 @@ export function notFoundResponse(message: string = "Not found") {
 export function validationErrorResponse(message: string = "Validation error") {
   return errorResponse(message, 422, "VALIDATION_ERROR");
 }
-

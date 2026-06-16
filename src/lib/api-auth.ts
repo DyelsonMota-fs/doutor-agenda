@@ -84,4 +84,3 @@ export async function requireClinic(): Promise<
   }
   return user as AuthenticatedUser & { clinicId: string };
 }
-
